@@ -6,5 +6,5 @@ cd ../sharepad3-service
 npm install
 npm run build
 
-sudo forever stopall
-sudo PORT=8080 forever node ./lib/index.js
+forever stopall
+PORT=8080 forever node ./lib/index.js
