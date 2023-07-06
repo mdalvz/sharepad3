@@ -5,11 +5,13 @@ import { useClient } from '../client/Client';
 import { NameContext } from '../contexts/NameContext';
 import { LoaderPage } from './LoaderPage';
 import { UpdateResponse } from 'sharepad3-model';
+import CodeEditor from '@uiw/react-textarea-code-editor';
 
 const Container = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
+  background-color: #101010;
 `;
 
 const Top = styled.div`
@@ -58,7 +60,7 @@ const NavEntry = styled.div<{ selected?: boolean }>`
   max-width: 200px;
   border-radius: 10px 10px 0px 0px;
   padding: 10px;
-  background-color: ${props => props.selected ? '#303030' : '#202020' };
+  background-color: ${props => props.selected ? '#202020' : '#101010' };
   user-select: none;
   white-space: nowrap;
   overflow: hidden;
@@ -73,22 +75,29 @@ const NavEntry = styled.div<{ selected?: boolean }>`
   }
 `;
 
-const Editor = styled.textarea`
-  margin: 0;
-  padding: 10px;
-  flex: 1;
+const EditorContainer = styled.div`
+  height: calc(100vh - 34px);
   display: block;
-  border: none;
-  outline: none;
-  resize: none;
-  font-size: 1rem;
-  background-color: #303030;
-  color: inherit;
-  line-height: 1rem;
-  white-space: pre;
-  overflow-wrap: normal;
-  overflow-x: auto;
+  overflow: auto;
+  background-color: #202020;
 `;
+
+const Editor = styled(CodeEditor)`
+  min-height: 100%;
+  font-size: 1rem;
+  background-color: inherit;
+  font-family: ui-monospace, SFMono-Regular, SF Mono, Consolas, Liberation Mono, Menlo, monospace;
+`;
+
+const LANGUAGES = [
+  'txt',
+  'java',
+  'xml',
+  'javascript',
+  'typescript',
+  'jsx',
+  'tsx',
+];
 
 export type SessionPageParams = {
   sessionId?: string;
@@ -101,12 +110,10 @@ export function SessionPage() {
   const nameContext = useContext(NameContext)!;
   const [ userId, setUserId ] = useState<string | undefined>();
   const [ users, setUsers ] = useState<UpdateResponse>([]);
-  const [ userFileType/*, setUserFileType*/ ] = useState<string>('txt');
+  const [ userFileType, setUserFileType ] = useState<string>(LANGUAGES[0]);
   const [ userFileData, setUserFileData ] = useState<string>('');
   const [ selectedUserIndex, setSelectedUserIndex ] = useState<number | undefined>();
   const [ updating, setUpdating ] = useState<boolean>(false);
-  const tabSizeOptions = [2, 4, 8];
-  const [ tabSizeIndex, setTabSizeIndex ] = useState<number>(0);
   const editorSelectionRef = useRef<number | null>(null);
   const editorRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -181,7 +188,7 @@ export function SessionPage() {
   }
 
   const isSelectedSelf = selectedUserIndex === undefined;
-  //const selectedUserFileType = isSelectedSelf ? userFileType : users[selectedUserIndex].userFile.fileType;
+  const selectedUserFileType = isSelectedSelf ? userFileType : users[selectedUserIndex].userFile.fileType;
   const selectedUserFileData = isSelectedSelf ? userFileData : users[selectedUserIndex].userFile.fileData;
 
   return (
@@ -222,38 +229,32 @@ export function SessionPage() {
             E: {editorRef.current?.selectionEnd}
           </InfoEntry>
           <InfoEntry noSelect={true} onClick={() => {
-            setTabSizeIndex(tabSizeIndex + 1 === tabSizeOptions.length ? 0 : tabSizeIndex + 1);
+            if (!isSelectedSelf) {
+              return;
+            }
+            let index = LANGUAGES.indexOf(userFileType);
+            let newIndex = index + 1 === LANGUAGES.length ? 0 : index + 1;
+            setUserFileType(LANGUAGES[newIndex]);
           }}>
-            Tab: {tabSizeOptions[tabSizeIndex]}
+            Lang: {selectedUserFileType}
           </InfoEntry>
           <InfoEntry>
             {params.sessionId}
           </InfoEntry>
         </Info>
       </Top>
-      <Editor
+      <EditorContainer>
+        <Editor
           ref={editorRef}
+          language={selectedUserFileType === 'txt' ? undefined : selectedUserFileType}
           placeholder={isSelectedSelf ? 'Type something here...' : 'There\'s nothing here yet...'}
           value={selectedUserFileData}
           readOnly={!isSelectedSelf}
           spellCheck={false}
           onChange={(e) => {
             setUserFileData(e.target.value);
-          }}
-          onKeyDown={(e) => {
-            if (!isSelectedSelf) {
-              return;
-            }
-            if (e.key === 'Tab') {
-              e.preventDefault();
-              let editor = editorRef.current!;
-              let left = editor.value.substring(0, editor.selectionStart);
-              let mid = new Array(tabSizeOptions[tabSizeIndex] + 1).join(' ');
-              let right = editor.value.substring(editor.selectionEnd);
-              editorSelectionRef.current = left.length + mid.length;
-              setUserFileData(left + mid + right);
-            }
           }}/>
+      </EditorContainer>
     </Container>
   );
   
