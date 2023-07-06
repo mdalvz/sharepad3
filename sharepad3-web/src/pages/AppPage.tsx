@@ -3,12 +3,13 @@ import { NameContextProvider } from '../contexts/NameContextProvider';
 import { HomePage } from './HomePage';
 import { SessionPage } from './SessionPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { COLOR_BG_1 } from '../colors/Colors';
 
 const Container = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  background-color: #202020;
+  background-color: ${COLOR_BG_1};
 `;
 
 export function AppPage() {

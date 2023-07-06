@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { COLOR_FG_1 } from '../colors/Colors';
 
 const Animation = keyframes`
   0% {
@@ -16,7 +17,7 @@ const Entry = styled.div`
   position: absolute;
   left: 8px;
   width: 16px;
-  background: #00CBE6;
+  background: ${COLOR_FG_1};
   animation: ${Animation} 0.6s cubic-bezier(0, 0.5, 0.5, 1) infinite;
 
   &:nth-child(1) {

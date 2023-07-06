@@ -6,12 +6,13 @@ import { NameContext } from '../contexts/NameContext';
 import { LoaderPage } from './LoaderPage';
 import { UpdateResponse } from 'sharepad3-model';
 import CodeEditor from '@uiw/react-textarea-code-editor';
+import { COLOR_BG_1, COLOR_BG_2, COLOR_FG_1 } from '../colors/Colors';
 
 const Container = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  background-color: #101010;
+  background-color: ${COLOR_BG_1};
 `;
 
 const Top = styled.div`
@@ -39,13 +40,13 @@ const InfoEntry = styled.div<{noSelect?: boolean}>`
   user-select: ${props => props.noSelect ? 'none' : 'auto'};
   &:hover {
     cursor: pointer;
-    background-color: #303030;
+    background-color: ${COLOR_BG_2};
   }
 `;
 
 const Logo = styled(Link)`
   padding: 0px 10px;
-  color: #00CBE6;
+  color: ${COLOR_FG_1};
   text-decoration: none;
   font-size: 2rem;
   user-select: none;
@@ -70,7 +71,7 @@ const NavEntry = styled.div<{ selected?: boolean }>`
     cursor: pointer;
   }
   span {
-    color: #00CBE6;
+    color: ${COLOR_FG_1};
     font-weight: bold;
   }
 `;
@@ -79,7 +80,7 @@ const EditorContainer = styled.div`
   height: calc(100vh - 34px);
   display: block;
   overflow: auto;
-  background-color: #202020;
+  background-color: ${COLOR_BG_2};
 `;
 
 const Editor = styled(CodeEditor)`

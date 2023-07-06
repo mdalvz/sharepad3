@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
 import { Button } from './Button';
+import { COLOR_BG_2 } from '../colors/Colors';
 
 const Container = styled.div`
   width: 200px;
@@ -9,7 +10,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  background-color: #303030;
+  background-color: ${COLOR_BG_2};
 `;
 
 const Header = styled.div`

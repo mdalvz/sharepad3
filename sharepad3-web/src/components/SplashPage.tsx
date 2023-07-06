@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
+import { COLOR_FG_1 } from '../colors/Colors';
 
 const Container = styled.div`
   flex: 1;
@@ -24,7 +25,7 @@ const Left = styled.div`
 `;
 
 const Right = styled.div`
-  color: #00CBE6;
+  color: ${COLOR_FG_1};
 `;
 
 const Bottom = styled.div`
