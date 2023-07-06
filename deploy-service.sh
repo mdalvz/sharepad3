@@ -7,4 +7,4 @@ npm install
 npm run build
 
 forever stopall
-PORT=8080 forever node ./lib/index.js
+PORT=8080 forever ./lib/index.js
