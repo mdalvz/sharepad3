@@ -17,5 +17,6 @@ app.post(CreateResource, createWrapper);
 app.post(OpenResource, openWrapper);
 app.post(UpdateResource, updateWrapper);
 
-console.log('Starting sharepad3-service...');
-app.listen(process.env.PORT || 3000);
+const PORT = process.env.PORT || 3000;
+console.log(`Starting sharepad3-service on port ${PORT}...`);
+app.listen(PORT);
