@@ -61,7 +61,7 @@ const NavEntry = styled.div<{ selected?: boolean }>`
   max-width: 200px;
   border-radius: 10px 10px 0px 0px;
   padding: 10px;
-  background-color: ${props => props.selected ? '#202020' : '#101010' };
+  background-color: ${props => props.selected ? COLOR_BG_2 : COLOR_BG_1 };
   user-select: none;
   white-space: nowrap;
   overflow: hidden;
